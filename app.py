@@ -4,16 +4,19 @@ import os
 import requests
 import numpy as np
 import librosa
-import joblib
 from moviepy.editor import VideoFileClip
 from sklearn.preprocessing import LabelEncoder
 from pydub import AudioSegment
 from collections import defaultdict
+import pickle
+
 
 app = Flask(__name__)
 
 # Load the trained model and label encoder once at the start
-model = joblib.load('emotion_detection_randomForest_model.pkl')
+with open('emotion_detection_randomForest_model.pkl', 'rb') as f:
+    model = pickle.load(f)
+# model = joblib.load('emotion_detection_randomForest_model.pkl')
 emotion_labels = ['neutral', 'calm', 'happy', 'sad', 'angry', 'fearful', 'disgust', 'surprised']
 label_encoder = LabelEncoder()
 label_encoder.fit(emotion_labels)
